@@ -1,0 +1,66 @@
+@Metadata.layer: #CORE
+
+@UI.headerInfo: { typeName: 'Project',
+                  typeNamePlural: 'Projects',
+                  title: { label: 'Project', type: #STANDARD, value: 'Name' } }
+
+annotate entity zsvg_c_proj with
+
+{
+  @UI.facet: [ { id: 'proj',
+                 label: 'Project',
+                 position: 10,
+                 purpose: #STANDARD,
+                 type: #IDENTIFICATION_REFERENCE } ]
+  @UI.identification: [ { label: 'Id', position: 10 } ]
+  @UI.lineItem: [ { label: 'Id', position: 10 } ]
+  Id;
+
+  @UI.identification: [ { label: 'EmpId', position: 20 } ]
+  @UI.lineItem: [ { label: 'EmpId', position: 20 } ]
+  EmpId;
+
+  @UI.identification: [ { label: 'Name', position: 30 } ]
+  @UI.lineItem: [ { label: 'Name', position: 30 } ]
+  Name;
+
+  @UI.identification: [ { label: 'Loc', position: 40 } ]
+  @UI.lineItem: [ { label: 'Loc', position: 40 } ]
+  Loc;
+
+  @UI.identification: [ { label: 'Alloc', position: 50 } ]
+  @UI.lineItem: [ { label: 'Alloc', position: 50 } ]
+  Alloc;
+
+  @UI.identification: [ { label: 'StartDate', position: 60 } ]
+  @UI.lineItem: [ { label: 'StartDate', position: 60 } ]
+  StartDate;
+
+  @UI.identification: [ { label: 'Active', position: 70 } ]
+  @UI.lineItem: [ { label: 'Active', position: 70 } ]
+  Active;
+
+  @UI.identification: [ { label: 'EndDate', position: 80 } ]
+  @UI.lineItem: [ { label: 'EndDate', position: 80 } ]
+  EndDate;
+
+  @UI.identification: [ { label: 'CreatedBy', position: 90 } ]
+  @UI.lineItem: [ { label: 'CreatedBy', position: 90 } ]
+  CreatedBy;
+
+  @UI.identification: [ { label: 'CreatedAt', position: 100 } ]
+  @UI.lineItem: [ { label: 'CreatedAt', position: 100 } ]
+  CreatedAt;
+
+  @UI.identification: [ { label: 'LastchangedBy', position: 110 } ]
+  @UI.lineItem: [ { label: 'LastchangedBy', position: 110 } ]
+  LastchangedBy;
+
+  @UI.identification: [ { label: 'LastchangedAt', position: 120 } ]
+  @UI.lineItem: [ { label: 'LastchangedAt', position: 120 } ]
+  LastchangedAt;
+
+  @UI.identification: [ { label: 'LocinstLastchangedAt', position: 130 } ]
+  @UI.lineItem: [ { label: 'LocinstLastchangedAt', position: 130 } ]
+  LocinstLastchangedAt;
+}

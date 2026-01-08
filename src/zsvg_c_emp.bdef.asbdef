@@ -1,0 +1,26 @@
+projection;
+strict ( 2 );
+use draft;
+
+define behavior for zsvg_c_emp alias emp
+{
+  use create;
+  use update;
+  use delete;
+
+  use action Prepare;
+  use action Activate;
+  use action Edit;
+  use action Resume;
+  use action Discard;
+
+  use association _proj { create; with draft; }
+}
+
+define behavior for zsvg_c_proj alias proj
+{
+  use update;
+  use delete;
+
+  use association _emp { with draft; }
+}

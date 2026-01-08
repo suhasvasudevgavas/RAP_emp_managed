@@ -1,0 +1,5 @@
+@EndUserText.label: 'Service definition for emp'
+define service Zsvg_sd_emp {
+  expose zsvg_c_emp;
+  expose zsvg_c_proj;
+}

@@ -1,0 +1,79 @@
+managed implementation in class zbp_svg_i_emp unique;
+strict ( 2 );
+with draft;
+
+define behavior for zsvg_i_emp alias emp
+persistent table zsvg_emp
+draft table zsvg_emp_dt
+lock master total etag LocinstLastchangedAt
+authorization master ( instance )
+etag master LastchangedAt
+{
+  create ( authorization : global, precheck );
+  update ( precheck );
+  delete;
+  field ( readonly, numbering : managed ) Id;
+  field ( mandatory ) Fname, Lname, Dob, Loc;
+  field ( readonly ) CreatedBy, CreatedAt, LastchangedBy, LastchangedAt, LocinstLastchangedAt;
+  association _proj { create; with draft; }
+
+  validation valdob on save { field Dob; create; update; }
+
+  draft determine action Prepare;
+  draft action Activate optimized;
+  draft action Edit;
+  draft action Resume;
+  draft action Discard;
+
+  mapping for zsvg_emp
+    {
+      Id                   = id;
+      Fname                = fname;
+      Lname                = lname;
+      Dob                  = dob;
+      Loc                  = loc;
+      CreatedBy            = created_by;
+      CreatedAt            = created_at;
+      LastchangedBy        = lastchanged_by;
+      LastchangedAt        = lastchanged_at;
+      LocinstLastchangedAt = locinst_lastchanged_at;
+    }
+
+}
+
+define behavior for zsvg_i_proj alias proj
+persistent table zsvg_proj
+draft table zsvg_proj_dt
+lock dependent by _emp
+authorization dependent by _emp
+etag master LastchangedAt
+{
+  update;
+  delete;
+  field ( readonly, numbering : managed ) Id;
+  field ( readonly ) EmpId;
+  field ( mandatory ) Name, Loc, Alloc, StartDate;
+  field ( readonly ) CreatedBy, CreatedAt, LastchangedBy, LastchangedAt, LocinstLastchangedAt;
+  field ( features : instance ) EndDate;
+  association _emp { with draft; }
+
+  validation ValEndDate on save { field EndDate; create; update; }
+
+  mapping for zsvg_proj
+    {
+      Id                   = id;
+      EmpId                = emp_id;
+      Name                 = name;
+      Loc                  = loc;
+      Alloc                = alloc;
+      StartDate            = start_date;
+      Active               = active;
+      EndDate              = end_date;
+      CreatedBy            = created_by;
+      CreatedAt            = created_at;
+      LastchangedBy        = lastchanged_by;
+      LastchangedAt        = lastchanged_at;
+      LocinstLastchangedAt = locinst_lastchanged_at;
+    }
+
+}
