@@ -14,7 +14,7 @@ ENDCLASS.
 
 CLASS zcl_test_svg IMPLEMENTATION.
   METHOD if_oo_adt_classrun~main.
-    DATA lv_op TYPE c LENGTH 3 VALUE 'U'.
+    DATA lv_op TYPE c LENGTH 3 VALUE 'D'.
 
     CASE lv_op.
 
@@ -152,6 +152,23 @@ CLASS zcl_test_svg IMPLEMENTATION.
                ENTITY proj
                UPDATE
                FROM lt_proj_u
+               FAILED lt_fail.
+
+        IF lt_fail IS INITIAL.
+          COMMIT ENTITIES.
+        ENDIF.
+
+      WHEN 'D'.
+
+        " Delete employee
+        DATA lt_emp_d TYPE TABLE FOR DELETE zsvg_i_emp.
+
+        lt_emp_d = VALUE #( ( id = '2ECDA033CCF51FD0BAFCEF02127A6916' ) ).
+
+        MODIFY ENTITIES OF zsvg_i_emp
+               ENTITY emp
+               DELETE
+               FROM lt_emp_d
                FAILED lt_fail.
 
         IF lt_fail IS INITIAL.
