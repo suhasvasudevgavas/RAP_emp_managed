@@ -61,6 +61,8 @@ CLASS lhc_emp DEFINITION INHERITING FROM cl_abap_behavior_handler.
 
     METHODS precheck_update FOR PRECHECK
       IMPORTING entities FOR UPDATE emp.
+    METHODS copy FOR MODIFY
+      IMPORTING keys FOR ACTION emp~copy.
 
 ENDCLASS.
 
@@ -110,6 +112,43 @@ CLASS lhc_emp IMPLEMENTATION.
                               %is_draft = lwa_entity-%is_draft
                               %msg      = new_message_with_text( severity = if_abap_behv_message=>severity-error
                                                                  text     = 'Age cannot be less than 18.' ) ) ).
+  ENDMETHOD.
+
+  METHOD copy.
+    DATA lt_emp_cr TYPE TABLE FOR CREATE zsvg_i_emp.
+
+    READ ENTITIES OF zsvg_i_emp IN LOCAL MODE
+         ENTITY emp
+         ALL FIELDS
+         WITH CORRESPONDING #( keys )
+         RESULT DATA(lt_emp)
+         FAILED DATA(lt_fail).
+
+    IF lt_fail IS NOT INITIAL.
+      RETURN.
+    ENDIF.
+
+    lt_emp_cr = VALUE #(
+        FOR lwa_emp IN lt_emp
+        ( %cid      = keys[ Id = lwa_emp-Id ]-%cid
+          %is_draft = keys[ Id = lwa_emp-Id ]-%is_draft
+          %data     = CORRESPONDING #( lwa_emp EXCEPT Id CreatedBy CreatedAt LastchangedBy LastchangedAt LocinstLastchangedAt )
+          %control  = VALUE #( Fname = if_abap_behv=>mk-on
+                               Lname = if_abap_behv=>mk-on
+                               Dob   = if_abap_behv=>mk-on
+                               Loc   = if_abap_behv=>mk-on ) ) ).
+
+    MODIFY ENTITIES OF zsvg_i_emp IN LOCAL MODE
+           ENTITY emp
+           CREATE
+           AUTO FILL CID
+           WITH lt_emp_cr
+           MAPPED DATA(lt_map)
+           FAILED lt_fail.
+
+    IF lt_fail IS INITIAL.
+      mapped = CORRESPONDING #( lt_map ).
+    ENDIF.
   ENDMETHOD.
 
 ENDCLASS.

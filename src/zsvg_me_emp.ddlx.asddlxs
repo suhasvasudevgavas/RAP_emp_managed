@@ -18,8 +18,10 @@ annotate entity zsvg_c_emp with
                  purpose: #STANDARD,
                  type: #LINEITEM_REFERENCE,
                  targetElement: '_proj' } ]
-  @UI.identification: [ { label: 'Id', position: 10 } ]
-  @UI.lineItem: [ { label: 'Id', position: 10 } ]
+  @UI.identification: [ { label: 'Id', position: 10 },
+                        { type: #FOR_ACTION, label: 'Copy instance', dataAction: 'copy' } ]
+  @UI.lineItem: [ { label: 'Id', position: 10 },
+                  { type: #FOR_ACTION, label: 'Copy instance', dataAction: 'copy' } ]
   Id;
 
   @UI.identification: [ { label: 'Fname', position: 20 } ]
@@ -33,7 +35,7 @@ annotate entity zsvg_c_emp with
   @UI.identification: [ { label: 'Dob', position: 40 } ]
   @UI.lineItem: [ { label: 'Dob', position: 40 } ]
   Dob;
-  
+
   @UI.identification: [ { label: 'Age', position: 45 } ]
   @UI.lineItem: [ { label: 'Age', position: 45 } ]
   Age;

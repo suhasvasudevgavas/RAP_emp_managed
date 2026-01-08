@@ -15,6 +15,7 @@ etag master LastchangedAt
   field ( readonly, numbering : managed ) Id;
   field ( mandatory ) Fname, Lname, Dob, Loc;
   field ( readonly ) CreatedBy, CreatedAt, LastchangedBy, LastchangedAt, LocinstLastchangedAt;
+  factory action copy [1];
   association _proj { create; with draft; }
 
   validation valdob on save { field Dob; create; update; }
