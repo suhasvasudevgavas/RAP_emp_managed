@@ -14,7 +14,8 @@ define behavior for zsvg_c_emp alias emp
   use action Resume;
   use action Discard;
 
-  use action copy;
+  use action copy_instance;
+  use action new_instance;
 
   use association _proj { create; with draft; }
 }

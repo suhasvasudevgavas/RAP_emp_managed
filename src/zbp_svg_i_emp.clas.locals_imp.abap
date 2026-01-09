@@ -61,8 +61,10 @@ CLASS lhc_emp DEFINITION INHERITING FROM cl_abap_behavior_handler.
 
     METHODS precheck_update FOR PRECHECK
       IMPORTING entities FOR UPDATE emp.
-    METHODS copy FOR MODIFY
-      IMPORTING keys FOR ACTION emp~copy.
+    METHODS copy_instance FOR MODIFY
+      IMPORTING keys FOR ACTION emp~copy_instance.
+    METHODS new_instance FOR MODIFY
+      IMPORTING keys FOR ACTION emp~new_instance.
 
 ENDCLASS.
 
@@ -114,38 +116,115 @@ CLASS lhc_emp IMPLEMENTATION.
                                                                  text     = 'Age cannot be less than 18.' ) ) ).
   ENDMETHOD.
 
-  METHOD copy.
-    DATA lt_emp_cr TYPE TABLE FOR CREATE zsvg_i_emp.
+  METHOD copy_instance.
+    DATA lt_emp_cr  TYPE TABLE FOR CREATE zsvg_i_emp.
+    DATA lt_proj_cr TYPE TABLE FOR CREATE zsvg_i_emp\_proj.
 
+    " Read the data with keys
     READ ENTITIES OF zsvg_i_emp IN LOCAL MODE
          ENTITY emp
          ALL FIELDS
          WITH CORRESPONDING #( keys )
          RESULT DATA(lt_emp)
+         ENTITY emp BY \_proj
+         ALL FIELDS
+         WITH CORRESPONDING #( keys )
+         RESULT DATA(lt_proj)
          FAILED DATA(lt_fail).
 
     IF lt_fail IS NOT INITIAL.
       RETURN.
     ENDIF.
 
+    " Fill itab for create
     lt_emp_cr = VALUE #(
         FOR lwa_emp IN lt_emp
         ( %cid      = keys[ Id = lwa_emp-Id ]-%cid
-          %is_draft = keys[ Id = lwa_emp-Id ]-%is_draft
+          %is_draft = keys[ Id = lwa_emp-Id ]-%param-%is_draft
           %data     = CORRESPONDING #( lwa_emp EXCEPT Id CreatedBy CreatedAt LastchangedBy LastchangedAt LocinstLastchangedAt )
           %control  = VALUE #( Fname = if_abap_behv=>mk-on
                                Lname = if_abap_behv=>mk-on
                                Dob   = if_abap_behv=>mk-on
                                Loc   = if_abap_behv=>mk-on ) ) ).
 
+    lt_proj_cr = VALUE #(
+        FOR lwa_emp IN lt_emp
+        FOR lwa_proj IN lt_proj
+        ( %cid_ref  = keys[ Id = lwa_emp-Id ]-%cid
+          %is_draft = keys[ Id = lwa_emp-Id ]-%param-%is_draft
+          %target   = VALUE #(
+              ( %cid      = '1'
+                %is_draft = keys[ Id = lwa_emp-Id ]-%param-%is_draft
+                %data     = CORRESPONDING #( lwa_proj EXCEPT Id EmpId CreatedBy CreatedAt LastchangedBy LastchangedAt LocinstLastchangedAt )
+                %control  = VALUE #( name      = if_abap_behv=>mk-on
+                                     loc       = if_abap_behv=>mk-on
+                                     Alloc     = if_abap_behv=>mk-on
+                                     StartDate = if_abap_behv=>mk-on
+                                     Active    = if_abap_behv=>mk-on
+                                     endDate   = if_abap_behv=>mk-on ) ) ) ) ).
+
+    " Create
     MODIFY ENTITIES OF zsvg_i_emp IN LOCAL MODE
            ENTITY emp
            CREATE
-           AUTO FILL CID
-           WITH lt_emp_cr
+           FROM lt_emp_cr
+           ENTITY emp
+           CREATE BY \_proj
+           FROM lt_proj_cr
            MAPPED DATA(lt_map)
            FAILED lt_fail.
 
+    " Fill mapped
+    IF lt_fail IS INITIAL.
+      mapped = CORRESPONDING #( lt_map ).
+    ENDIF.
+  ENDMETHOD.
+
+  METHOD new_instance.
+    DATA lt_emp_cr  TYPE TABLE FOR CREATE zsvg_i_emp.
+    DATA lt_proj_cr TYPE TABLE FOR CREATE zsvg_i_emp\_proj.
+
+    " Fill itab for create
+    lt_emp_cr = VALUE #( ( %cid      = keys[ 1 ]-%cid
+                           %is_draft = keys[ 1 ]-%param-%is_draft
+                           %data     = VALUE #( Fname = 'fname'
+                                                Lname = 'lname'
+                                                Dob   = '19900101'
+                                                Loc   = 'ban' )
+                           %control  = VALUE #( Fname = if_abap_behv=>mk-on
+                                                Lname = if_abap_behv=>mk-on
+                                                Dob   = if_abap_behv=>mk-on
+                                                Loc   = if_abap_behv=>mk-on ) ) ).
+
+    lt_proj_cr = VALUE #( ( %cid_ref  = keys[ 1 ]-%cid
+                            %is_draft = keys[ 1 ]-%param-%is_draft
+                            %target   = VALUE #( ( %cid      = '2'
+                                                   %is_draft = keys[ 1 ]-%param-%is_draft
+                                                   %data     = VALUE #( name      = 'name'
+                                                                        loc       = 'ban'
+                                                                        Alloc     = '100'
+                                                                        StartDate = '20000101'
+                                                                        Active    = 'X' )
+
+                                                   %control  = VALUE #( name      = if_abap_behv=>mk-on
+                                                                        loc       = if_abap_behv=>mk-on
+                                                                        Alloc     = if_abap_behv=>mk-on
+                                                                        StartDate = if_abap_behv=>mk-on
+                                                                        Active    = if_abap_behv=>mk-on ) ) ) ) ).
+
+    " Create
+    MODIFY ENTITIES OF zsvg_i_emp IN LOCAL MODE
+           ENTITY emp
+           CREATE
+           FROM lt_emp_cr
+           ENTITY emp
+           CREATE BY \_proj
+           FROM lt_proj_cr
+           MAPPED DATA(lt_map)
+           FAILED DATA(lt_fail)
+           REPORTED DATA(lt_repo).
+
+    " Fill mapped
     IF lt_fail IS INITIAL.
       mapped = CORRESPONDING #( lt_map ).
     ENDIF.

@@ -19,9 +19,11 @@ annotate entity zsvg_c_emp with
                  type: #LINEITEM_REFERENCE,
                  targetElement: '_proj' } ]
   @UI.identification: [ { label: 'Id', position: 10 },
-                        { type: #FOR_ACTION, label: 'Copy instance', dataAction: 'copy' } ]
+                        { type: #FOR_ACTION, label: 'Copy instance', dataAction: 'copy_instance' },
+                        { type: #FOR_ACTION, label: 'New instance', dataAction: 'new_instance' } ]
   @UI.lineItem: [ { label: 'Id', position: 10 },
-                  { type: #FOR_ACTION, label: 'Copy instance', dataAction: 'copy' } ]
+                  { type: #FOR_ACTION, label: 'Copy instance', dataAction: 'copy_instance' },
+                  { type: #FOR_ACTION, label: 'New instance', dataAction: 'new_instance' } ]
   Id;
 
   @UI.identification: [ { label: 'Fname', position: 20 } ]
