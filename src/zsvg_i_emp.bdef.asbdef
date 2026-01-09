@@ -59,6 +59,8 @@ etag master LastchangedAt
   field ( features : instance ) EndDate;
   association _emp { with draft; }
 
+  action ( features : instance ) end_project result[1] $self;
+
   validation ValEndDate on save { field EndDate; create; update; }
 
   mapping for zsvg_proj

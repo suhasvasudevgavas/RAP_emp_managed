@@ -6,6 +6,11 @@ CLASS lhc_proj DEFINITION INHERITING FROM cl_abap_behavior_handler.
       IMPORTING keys REQUEST requested_features FOR proj RESULT result.
     METHODS valenddate FOR VALIDATE ON SAVE
       IMPORTING keys FOR proj~valenddate.
+    METHODS get_instance_authorizations FOR INSTANCE AUTHORIZATION
+      IMPORTING keys REQUEST requested_authorizations FOR proj RESULT result.
+
+    METHODS end_project FOR MODIFY
+      IMPORTING keys FOR ACTION proj~end_project RESULT result.
 
 ENDCLASS.
 
@@ -19,10 +24,17 @@ CLASS lhc_proj IMPLEMENTATION.
 
     LOOP AT lt_active INTO DATA(lwa_active).
       IF lwa_active-Active IS NOT INITIAL.
-        APPEND VALUE #( %is_draft      = lwa_active-%is_draft
-                        id             = lwa_active-Id
-                        empid          = lwa_active-EmpId
-                        %field-enddate = if_abap_behv=>fc-f-read_only ) TO result.
+        APPEND VALUE #( %is_draft           = lwa_active-%is_draft
+                        id                  = lwa_active-Id
+                        empid               = lwa_active-EmpId
+                        %field-enddate      = if_abap_behv=>fc-f-read_only
+                        %action-end_project = if_abap_behv=>fc-o-enabled ) TO result.
+      ELSE.
+        APPEND VALUE #( %is_draft           = lwa_active-%is_draft
+                        id                  = lwa_active-Id
+                        empid               = lwa_active-EmpId
+                        %field-enddate      = if_abap_behv=>fc-f-unrestricted
+                        %action-end_project = if_abap_behv=>fc-o-disabled ) TO result.
       ENDIF.
     ENDLOOP.
   ENDMETHOD.
@@ -42,6 +54,44 @@ CLASS lhc_proj IMPLEMENTATION.
                                                       text     = 'End date should be greater than start date.' ) ) TO reported-proj.
       ENDIF.
     ENDLOOP.
+  ENDMETHOD.
+
+  METHOD get_instance_authorizations.
+  ENDMETHOD.
+
+  METHOD end_project.
+    DATA lt_proj_up TYPE TABLE FOR UPDATE zsvg_i_proj.
+
+    lt_proj_up = VALUE #( FOR key IN keys
+                          ( id       = key-Id
+                            EmpId    = key-EmpId
+                            Active   = ''
+                            EndDate  = cl_abap_context_info=>get_system_date( )
+                            %control = VALUE #( Active  = if_abap_behv=>mk-on
+                                                EndDate = if_abap_behv=>mk-on ) ) ).
+
+    MODIFY ENTITIES OF zsvg_i_emp IN LOCAL MODE
+           ENTITY proj
+           UPDATE
+           FIELDS ( Active EndDate )
+           WITH lt_proj_up
+           FAILED DATA(lt_fail).
+
+    IF lt_fail IS INITIAL.
+      READ ENTITIES OF zsvg_i_emp IN LOCAL MODE
+           ENTITY proj
+           ALL FIELDS
+           WITH CORRESPONDING #( keys )
+           RESULT DATA(lt_proj)
+           FAILED lt_fail.
+
+      IF lt_fail IS INITIAL.
+        result = VALUE #( FOR lwa_proj IN lt_proj
+                          ( Id        = lwa_proj-Id
+                            %is_draft = lwa_proj-%is_draft
+                            %param    = CORRESPONDING #( lwa_proj ) ) ).
+      ENDIF.
+    ENDIF.
   ENDMETHOD.
 
 ENDCLASS.

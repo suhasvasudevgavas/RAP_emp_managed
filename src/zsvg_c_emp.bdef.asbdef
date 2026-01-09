@@ -25,5 +25,7 @@ define behavior for zsvg_c_proj alias proj
   use update;
   use delete;
 
+  use action end_project;
+
   use association _emp { with draft; }
 }

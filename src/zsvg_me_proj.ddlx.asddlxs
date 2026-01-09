@@ -40,8 +40,10 @@ annotate entity zsvg_c_proj with
   @UI.lineItem: [ { label: 'Active', position: 70 } ]
   Active;
 
-  @UI.identification: [ { label: 'EndDate', position: 80 } ]
-  @UI.lineItem: [ { label: 'EndDate', position: 80 } ]
+  @UI.identification: [ { label: 'EndDate', position: 80 },
+                        { type: #FOR_ACTION, label: 'End project', dataAction: 'end_project' } ]
+  @UI.lineItem: [ { label: 'EndDate', position: 80 },
+                  { type: #FOR_ACTION, label: 'End project', dataAction: 'end_project' } ]
   EndDate;
 
   @UI.identification: [ { label: 'CreatedBy', position: 90 } ]
