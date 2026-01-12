@@ -46,6 +46,10 @@ annotate entity zsvg_c_emp with
   @UI.lineItem: [ { label: 'Loc', position: 50 } ]
   Loc;
 
+  @UI.identification: [ { label: 'State', position: 55 } ]
+  @UI.lineItem: [ { label: 'State', position: 55 } ]
+  State;
+
   @UI.identification: [ { label: 'CreatedBy', position: 60 } ]
   @UI.lineItem: [ { label: 'CreatedBy', position: 60 } ]
   CreatedBy;

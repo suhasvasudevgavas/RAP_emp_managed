@@ -20,6 +20,7 @@ define root view entity zsvg_c_emp
   virtual Age : abap.int1,
 
           Loc,
+          State,
           CreatedBy,
           CreatedAt,
           LastchangedBy,

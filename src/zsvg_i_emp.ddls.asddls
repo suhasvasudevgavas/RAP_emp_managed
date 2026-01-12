@@ -16,6 +16,7 @@ define root view entity zsvg_i_emp
       lname                  as Lname,
       dob                    as Dob,
       loc                    as Loc,
+      state                  as State,
 
       @Semantics.user.createdBy: true
       created_by             as CreatedBy,

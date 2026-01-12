@@ -115,6 +115,8 @@ CLASS lhc_emp DEFINITION INHERITING FROM cl_abap_behavior_handler.
       IMPORTING keys FOR ACTION emp~copy_instance.
     METHODS new_instance FOR MODIFY
       IMPORTING keys FOR ACTION emp~new_instance.
+    METHODS detstate FOR DETERMINE ON SAVE
+      IMPORTING keys FOR emp~detstate.
 
 ENDCLASS.
 
@@ -278,6 +280,45 @@ CLASS lhc_emp IMPLEMENTATION.
     IF lt_fail IS INITIAL.
       mapped = CORRESPONDING #( lt_map ).
     ENDIF.
+  ENDMETHOD.
+
+  METHOD detstate.
+    DATA lt_emp_up TYPE TABLE FOR UPDATE zsvg_i_emp.
+
+    READ ENTITIES OF zsvg_i_emp IN LOCAL MODE
+         ENTITY emp
+         FIELDS ( Loc )
+         WITH CORRESPONDING #( keys )
+         RESULT DATA(lt_emp)
+         FAILED DATA(lt_fail).
+
+    IF lt_fail IS NOT INITIAL.
+      RETURN.
+    ENDIF.
+
+    LOOP AT lt_emp INTO DATA(lwa_emp).
+      CASE lwa_emp-Loc.
+        WHEN 'ban'.
+          APPEND VALUE #( %tky           = lwa_emp-%tky
+                          State          = 'KA'
+                          %control-State = if_abap_behv=>mk-on ) TO lt_emp_up.
+        WHEN 'pun'.
+          APPEND VALUE #( %tky           = lwa_emp-%tky
+                          State          = 'MH'
+                          %control-State = if_abap_behv=>mk-on ) TO lt_emp_up.
+        WHEN 'cob'.
+          APPEND VALUE #( %tky           = lwa_emp-%tky
+                          State          = 'TN'
+                          %control-State = if_abap_behv=>mk-on ) TO lt_emp_up.
+      ENDCASE.
+    ENDLOOP.
+
+    MODIFY ENTITIES OF zsvg_i_emp IN LOCAL MODE
+           ENTITY emp
+           UPDATE
+           FIELDS ( State )
+           WITH lt_emp_up
+           FAILED lt_fail.
   ENDMETHOD.
 
 ENDCLASS.

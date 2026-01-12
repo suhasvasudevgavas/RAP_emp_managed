@@ -14,12 +14,20 @@ etag master LastchangedAt
   delete;
   field ( readonly, numbering : managed ) Id;
   field ( mandatory ) Fname, Lname, Dob, Loc;
-  field ( readonly ) CreatedBy, CreatedAt, LastchangedBy, LastchangedAt, LocinstLastchangedAt;
+  field ( readonly ) State, CreatedBy, CreatedAt, LastchangedBy, LastchangedAt, LocinstLastchangedAt;
   factory action copy_instance [1];
   static factory action new_instance [1];
   association _proj { create; with draft; }
 
   validation valdob on save { field Dob; create; update; }
+  determination detstate on save { field Loc; }
+
+  determine action detactstate
+  {
+    determination detstate;
+  }
+
+  side effects { determine action detactstate executed on field Loc affects field State; }
 
   draft determine action Prepare;
   draft action Activate optimized;
@@ -34,6 +42,7 @@ etag master LastchangedAt
       Lname                = lname;
       Dob                  = dob;
       Loc                  = loc;
+      State                = state;
       CreatedBy            = created_by;
       CreatedAt            = created_at;
       LastchangedBy        = lastchanged_by;
@@ -59,7 +68,7 @@ etag master LastchangedAt
   field ( features : instance ) EndDate;
   association _emp { with draft; }
 
-  action ( features : instance ) end_project result[1] $self;
+  action ( features : instance ) end_project result [1] $self;
 
   validation ValEndDate on save { field EndDate; create; update; }
 

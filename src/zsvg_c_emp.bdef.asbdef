@@ -1,7 +1,7 @@
 projection;
 strict ( 2 );
 use draft;
-
+use side effects;
 define behavior for zsvg_c_emp alias emp
 {
   use create;
@@ -16,6 +16,8 @@ define behavior for zsvg_c_emp alias emp
 
   use action copy_instance;
   use action new_instance;
+
+  use action detactstate;
 
   use association _proj { create; with draft; }
 }
