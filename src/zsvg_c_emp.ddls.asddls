@@ -20,11 +20,13 @@ define root view entity zsvg_c_emp
   virtual Age : abap.int1,
 
           Loc,
+          Location_text,
           State,
           CreatedBy,
           CreatedAt,
           LastchangedBy,
           LastchangedAt,
           LocinstLastchangedAt,
-          _proj : redirected to composition child zsvg_c_proj
+          _proj : redirected to composition child zsvg_c_proj,
+          _loc
 }

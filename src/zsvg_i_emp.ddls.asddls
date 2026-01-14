@@ -6,6 +6,7 @@
 
 define root view entity zsvg_i_emp
   as select from zsvg_emp
+  association [0..1] to zsvg_i_loc  as _loc on $projection.Loc = _loc.value_low
 
   composition [0..*] of zsvg_i_proj as _proj
 
@@ -16,6 +17,7 @@ define root view entity zsvg_i_emp
       lname                  as Lname,
       dob                    as Dob,
       loc                    as Loc,
+      _loc.location_text     as Location_text,
       state                  as State,
 
       @Semantics.user.createdBy: true
@@ -33,5 +35,6 @@ define root view entity zsvg_i_emp
       @Semantics.systemDateTime.localInstanceLastChangedAt: true
       locinst_lastchanged_at as LocinstLastchangedAt,
 
-      _proj
+      _proj,
+      _loc
 }

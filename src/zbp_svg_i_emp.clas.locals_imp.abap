@@ -298,15 +298,20 @@ CLASS lhc_emp IMPLEMENTATION.
 
     LOOP AT lt_emp INTO DATA(lwa_emp).
       CASE lwa_emp-Loc.
-        WHEN 'ban'.
+        WHEN 'BAN'.
           APPEND VALUE #( %tky           = lwa_emp-%tky
                           State          = 'KA'
                           %control-State = if_abap_behv=>mk-on ) TO lt_emp_up.
-        WHEN 'pun'.
+        WHEN 'PUN'.
           APPEND VALUE #( %tky           = lwa_emp-%tky
                           State          = 'MH'
                           %control-State = if_abap_behv=>mk-on ) TO lt_emp_up.
-        WHEN 'cob'.
+        WHEN 'COB'.
+          APPEND VALUE #( %tky           = lwa_emp-%tky
+                          State          = 'TN'
+                          %control-State = if_abap_behv=>mk-on ) TO lt_emp_up.
+
+        WHEN 'CHN'.
           APPEND VALUE #( %tky           = lwa_emp-%tky
                           State          = 'TN'
                           %control-State = if_abap_behv=>mk-on ) TO lt_emp_up.

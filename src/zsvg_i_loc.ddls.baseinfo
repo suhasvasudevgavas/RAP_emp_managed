@@ -3,14 +3,10 @@
 {
 "FROM":
 [
-"ZSVG_I_LOC",
-"ZSVG_EMP"
+"DDCDS_CUSTOMER_DOMAIN_VALUE_T"
 ],
 "ASSOCIATED":
-[
-"ZSVG_I_LOC",
-"ZSVG_I_PROJ"
-],
+[],
 "BASE":
 [],
 "ANNO_REF":

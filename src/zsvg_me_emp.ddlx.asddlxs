@@ -42,9 +42,15 @@ annotate entity zsvg_c_emp with
   @UI.lineItem: [ { label: 'Age', position: 45 } ]
   Age;
 
+  @Consumption.valueHelpDefinition: [ { entity: { name: 'zsvg_i_loc', element: 'value_low' },
+                                        additionalBinding: [ { element: 'location_text', localElement: 'Location_text' } ] } ]
   @UI.identification: [ { label: 'Loc', position: 50 } ]
   @UI.lineItem: [ { label: 'Loc', position: 50 } ]
   Loc;
+
+  @UI.identification: [ { label: 'Location_text', position: 52 } ]
+  @UI.lineItem: [ { label: 'Location_text', position: 52 } ]
+  Location_text;
 
   @UI.identification: [ { label: 'State', position: 55 } ]
   @UI.lineItem: [ { label: 'State', position: 55 } ]
