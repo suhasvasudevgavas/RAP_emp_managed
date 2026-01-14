@@ -14,6 +14,7 @@ define view entity zsvg_c_proj
 
       Name,
       Loc,
+      Location_text,
       Alloc,
       StartDate,
       Active,
@@ -24,5 +25,6 @@ define view entity zsvg_c_proj
       LastchangedAt,
       LocinstLastchangedAt,
 
-      _emp : redirected to parent zsvg_c_emp
+      _emp : redirected to parent zsvg_c_emp,
+      _loc
 }

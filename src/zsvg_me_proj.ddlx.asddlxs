@@ -26,6 +26,8 @@ annotate entity zsvg_c_proj with
 
   @UI.identification: [ { label: 'Loc', position: 40 } ]
   @UI.lineItem: [ { label: 'Loc', position: 40 } ]
+  @Consumption.valueHelpDefinition: [{ entity:{ name: 'zsvg_i_loc', element: 'value_low' },
+  additionalBinding: [{ element: 'location_text', localElement: 'Location_text' }] }]
   Loc;
 
   @UI.identification: [ { label: 'Alloc', position: 50 } ]

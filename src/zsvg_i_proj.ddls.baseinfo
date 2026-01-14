@@ -3,11 +3,13 @@
 {
 "FROM":
 [
+"ZSVG_I_LOC",
 "ZSVG_PROJ"
 ],
 "ASSOCIATED":
 [
-"ZSVG_I_EMP"
+"ZSVG_I_EMP",
+"ZSVG_I_LOC"
 ],
 "BASE":
 [],

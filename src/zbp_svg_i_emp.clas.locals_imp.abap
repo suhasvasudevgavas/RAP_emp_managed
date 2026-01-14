@@ -306,11 +306,10 @@ CLASS lhc_emp IMPLEMENTATION.
           APPEND VALUE #( %tky           = lwa_emp-%tky
                           State          = 'MH'
                           %control-State = if_abap_behv=>mk-on ) TO lt_emp_up.
-        WHEN 'COB'.
+        WHEN 'HYD'.
           APPEND VALUE #( %tky           = lwa_emp-%tky
-                          State          = 'TN'
+                          State          = 'TL'
                           %control-State = if_abap_behv=>mk-on ) TO lt_emp_up.
-
         WHEN 'CHN'.
           APPEND VALUE #( %tky           = lwa_emp-%tky
                           State          = 'TN'

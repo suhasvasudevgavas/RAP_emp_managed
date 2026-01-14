@@ -10,8 +10,8 @@
 
 define view entity zsvg_i_proj
   as select from zsvg_proj
-
-  association to parent zsvg_i_emp as _emp on $projection.EmpId = _emp.Id
+  association [0..1] to zsvg_i_loc        as _loc on $projection.Loc = _loc.value_low
+  association        to parent zsvg_i_emp as _emp on $projection.EmpId = _emp.Id
 
 {
   key id                     as Id,
@@ -19,6 +19,7 @@ define view entity zsvg_i_proj
 
       name                   as Name,
       loc                    as Loc,
+      _loc.location_text     as Location_text,
       alloc                  as Alloc,
       start_date             as StartDate,
       active                 as Active,
@@ -39,5 +40,6 @@ define view entity zsvg_i_proj
       @Semantics.systemDateTime.localInstanceLastChangedAt: true
       locinst_lastchanged_at as LocinstLastchangedAt,
 
-      _emp
+      _emp,
+      _loc
 }
