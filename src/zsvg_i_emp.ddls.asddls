@@ -4,11 +4,15 @@
 
 @Metadata.ignorePropagatedAnnotations: true
 
+@ObjectModel.semanticKey: [ 'Id' ]
+
 define root view entity zsvg_i_emp
   as select from zsvg_emp
-  association [0..1] to zsvg_i_loc  as _loc on $projection.Loc = _loc.value_low
 
-  composition [0..*] of zsvg_i_proj as _proj
+  association [0..1] to zsvg_i_loc   as _loc   on $projection.Loc = _loc.value_low
+  association [0..1] to zsvg_i_state as _state on $projection.State = _state.value_low
+
+  composition [0..*] of zsvg_i_proj  as _proj
 
 {
   key id                     as Id,
@@ -19,6 +23,7 @@ define root view entity zsvg_i_emp
       loc                    as Loc,
       _loc.location_text     as Location_text,
       state                  as State,
+      _state.state_text      as State_text,
 
       @Semantics.user.createdBy: true
       created_by             as CreatedBy,
@@ -36,5 +41,6 @@ define root view entity zsvg_i_emp
       locinst_lastchanged_at as LocinstLastchangedAt,
 
       _proj,
-      _loc
+      _loc,
+      _state
 }

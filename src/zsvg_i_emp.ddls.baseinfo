@@ -4,12 +4,14 @@
 "FROM":
 [
 "ZSVG_I_LOC",
+"ZSVG_I_STATE",
 "ZSVG_EMP"
 ],
 "ASSOCIATED":
 [
 "ZSVG_I_LOC",
-"ZSVG_I_PROJ"
+"ZSVG_I_PROJ",
+"ZSVG_I_STATE"
 ],
 "BASE":
 [],

@@ -8,6 +8,8 @@
 
 @ObjectModel.usageType: { serviceQuality: #X, sizeCategory: #S, dataClass: #MIXED }
 
+@ObjectModel.semanticKey: [ 'Id', 'EmpId' ]
+
 define view entity zsvg_i_proj
   as select from zsvg_proj
   association [0..1] to zsvg_i_loc        as _loc on $projection.Loc = _loc.value_low

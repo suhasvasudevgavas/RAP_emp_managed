@@ -65,6 +65,7 @@ CLASS lhc_proj IMPLEMENTATION.
     lt_proj_up = VALUE #( FOR key IN keys
                           ( id       = key-Id
                             EmpId    = key-EmpId
+                            Alloc    = 0
                             Active   = ''
                             EndDate  = cl_abap_context_info=>get_system_date( )
                             %control = VALUE #( Active  = if_abap_behv=>mk-on
@@ -73,7 +74,7 @@ CLASS lhc_proj IMPLEMENTATION.
     MODIFY ENTITIES OF zsvg_i_emp IN LOCAL MODE
            ENTITY proj
            UPDATE
-           FIELDS ( Active EndDate )
+           FIELDS ( Alloc Active EndDate )
            WITH lt_proj_up
            FAILED DATA(lt_fail).
 
@@ -242,7 +243,7 @@ CLASS lhc_emp IMPLEMENTATION.
                            %data     = VALUE #( Fname = 'fname'
                                                 Lname = 'lname'
                                                 Dob   = '19900101'
-                                                Loc   = 'ban' )
+                                                Loc   = 'BAN' )
                            %control  = VALUE #( Fname = if_abap_behv=>mk-on
                                                 Lname = if_abap_behv=>mk-on
                                                 Dob   = if_abap_behv=>mk-on
@@ -253,7 +254,7 @@ CLASS lhc_emp IMPLEMENTATION.
                             %target   = VALUE #( ( %cid      = '2'
                                                    %is_draft = keys[ 1 ]-%param-%is_draft
                                                    %data     = VALUE #( name      = 'name'
-                                                                        loc       = 'ban'
+                                                                        loc       = 'BAN'
                                                                         Alloc     = '100'
                                                                         StartDate = '20000101'
                                                                         Active    = 'X' )

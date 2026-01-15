@@ -7,70 +7,103 @@
 annotate entity zsvg_c_emp with
 
 {
-  @UI.facet: [ { id: 'emp',
-                 label: 'Employee',
-                 position: 10,
-                 purpose: #STANDARD,
-                 type: #IDENTIFICATION_REFERENCE },
+  @EndUserText.label: 'ID'
+  @UI.facet: [ { label: 'Employee data', id: 'emp_data', type: #COLLECTION, position: 10 },
+  //               { id: 'emp',
+  //                 label: 'Employee',
+  //                 position: 10,
+  //                 purpose: #STANDARD,
+  //                 type: #IDENTIFICATION_REFERENCE,
+  //                 parentId: 'emp_data' },
                { id: 'proj',
                  label: 'Project',
                  position: 20,
                  purpose: #STANDARD,
                  type: #LINEITEM_REFERENCE,
-                 targetElement: '_proj' } ]
-  @UI.identification: [ { label: 'Id', position: 10 } ]
+                 targetElement: '_proj',
+                 parentId: 'emp_data' },
+               { label: 'Peronal data',
+                 purpose: #STANDARD,
+                 type: #FIELDGROUP_REFERENCE,
+                 position: 10,
+                 parentId: 'emp_data',
+                 targetQualifier: 'personal_data' },
+               { label: 'Admin data',
+                 purpose: #STANDARD,
+                 type: #FIELDGROUP_REFERENCE,
+                 position: 20,
+                 parentId: 'emp_data',
+                 targetQualifier: 'admindata' } ]
+  @UI.fieldGroup: [ { qualifier: 'personal_data', position: 10 } ]
   @UI.lineItem: [ { label: 'Id', position: 10 },
                   { type: #FOR_ACTION, label: 'Copy instance', dataAction: 'copy_instance' },
                   { type: #FOR_ACTION, label: 'New instance', dataAction: 'new_instance' } ]
   Id;
 
-  @UI.identification: [ { label: 'Fname', position: 20 } ]
+  @EndUserText.label: 'First name'
+  @UI.fieldGroup: [ { qualifier: 'personal_data', position: 20 } ]
   @UI.lineItem: [ { label: 'Fname', position: 20 } ]
   Fname;
 
-  @UI.identification: [ { label: 'Lname', position: 30 } ]
+  @EndUserText.label: 'Last name'
+  @UI.fieldGroup: [ { qualifier: 'personal_data', position: 30 } ]
   @UI.lineItem: [ { label: 'Lname', position: 30 } ]
   Lname;
 
-  @UI.identification: [ { label: 'Dob', position: 40 } ]
+  @EndUserText.label: 'Date of birth'
+  @UI.fieldGroup: [ { qualifier: 'personal_data', position: 40 } ]
   @UI.lineItem: [ { label: 'Dob', position: 40 } ]
   Dob;
 
-  @UI.identification: [ { label: 'Age', position: 45 } ]
+  @EndUserText.label: 'Age'
+  @UI.fieldGroup: [ { qualifier: 'personal_data', position: 50 } ]
   @UI.lineItem: [ { label: 'Age', position: 45 } ]
   Age;
 
   @Consumption.valueHelpDefinition: [ { entity: { name: 'zsvg_i_loc', element: 'value_low' },
                                         additionalBinding: [ { element: 'location_text', localElement: 'Location_text' } ] } ]
-  @UI.identification: [ { label: 'Loc', position: 50 } ]
+  @EndUserText.label: 'Location'
+  @UI.fieldGroup: [ { qualifier: 'personal_data', position: 60 } ]
   @UI.lineItem: [ { label: 'Loc', position: 50 } ]
   Loc;
 
-  @UI.identification: [ { label: 'Location_text', position: 52 } ]
+  @EndUserText.label: 'Description'
+  @UI.fieldGroup: [ { qualifier: 'personal_data', position: 70 } ]
   @UI.lineItem: [ { label: 'Location_text', position: 52 } ]
   Location_text;
 
-  @UI.identification: [ { label: 'State', position: 55 } ]
+  @EndUserText.label: 'State'
+  @UI.fieldGroup: [ { qualifier: 'personal_data', position: 80 } ]
   @UI.lineItem: [ { label: 'State', position: 55 } ]
   State;
 
-  @UI.identification: [ { label: 'CreatedBy', position: 60 } ]
+  @EndUserText.label: 'Description'
+  @UI.fieldGroup: [ { qualifier: 'personal_data', position: 90 } ]
+  @UI.lineItem: [ { label: 'State_text', position: 57 } ]
+  State_text;
+
+  @EndUserText.label: 'Created by'
+  @UI.fieldGroup: [ { qualifier: 'admindata', position: 10 } ]
   @UI.lineItem: [ { label: 'CreatedBy', position: 60 } ]
   CreatedBy;
 
-  @UI.identification: [ { label: 'CreatedAt', position: 70 } ]
+  @EndUserText.label: 'Created at'
+  @UI.fieldGroup: [ { qualifier: 'admindata', position: 20 } ]
   @UI.lineItem: [ { label: 'CreatedAt', position: 70 } ]
   CreatedAt;
 
-  @UI.identification: [ { label: 'LastchangedBy', position: 80 } ]
+  @EndUserText.label: 'Last changed by'
+  @UI.fieldGroup: [ { qualifier: 'admindata', position: 30 } ]
   @UI.lineItem: [ { label: 'LastchangedBy', position: 80 } ]
   LastchangedBy;
 
-  @UI.identification: [ { label: 'LastchangedAt', position: 90 } ]
+  @EndUserText.label: 'Last changed at'
+  @UI.fieldGroup: [ { qualifier: 'admindata', position: 40 } ]
   @UI.lineItem: [ { label: 'LastchangedAt', position: 90 } ]
   LastchangedAt;
 
-  @UI.identification: [ { label: 'LocinstLastchangedAt', position: 100 } ]
+  @EndUserText.label: 'Loc inst last changed at'
+  @UI.fieldGroup: [ { qualifier: 'admindata', position: 50 } ]
   @UI.lineItem: [ { label: 'LocinstLastchangedAt', position: 100 } ]
   LocinstLastchangedAt;
 }

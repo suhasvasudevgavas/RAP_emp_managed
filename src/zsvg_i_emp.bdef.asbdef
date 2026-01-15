@@ -14,7 +14,7 @@ etag master LastchangedAt
   delete;
   field ( readonly, numbering : managed ) Id;
   field ( mandatory ) Fname, Lname, Dob, Loc;
-  field ( readonly ) Location_text, State, CreatedBy, CreatedAt, LastchangedBy, LastchangedAt, LocinstLastchangedAt;
+  field ( readonly ) Location_text, State, State_text, CreatedBy, CreatedAt, LastchangedBy, LastchangedAt, LocinstLastchangedAt;
   factory action copy_instance [1];
   static factory action ( authorization : global ) new_instance [1];
   association _proj { create ( authorization : global ); with draft; }

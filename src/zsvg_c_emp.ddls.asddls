@@ -22,11 +22,13 @@ define root view entity zsvg_c_emp
           Loc,
           Location_text,
           State,
+          State_text,
           CreatedBy,
           CreatedAt,
           LastchangedBy,
           LastchangedAt,
           LocinstLastchangedAt,
           _proj : redirected to composition child zsvg_c_proj,
-          _loc
+          _loc,
+          _state
 }
