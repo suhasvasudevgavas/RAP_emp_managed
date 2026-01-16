@@ -1,5 +1,7 @@
 @Metadata.layer: #CORE
 
+@Search.searchable: true
+
 @UI.headerInfo: { typeName: 'Employee',
                   typeNamePlural: 'Employees',
                   title: { label: 'Employee', type: #STANDARD, value: 'Lname' } }
@@ -9,12 +11,6 @@ annotate entity zsvg_c_emp with
 {
   @EndUserText.label: 'ID'
   @UI.facet: [ { label: 'Employee data', id: 'emp_data', type: #COLLECTION, position: 10 },
-  //               { id: 'emp',
-  //                 label: 'Employee',
-  //                 position: 10,
-  //                 purpose: #STANDARD,
-  //                 type: #IDENTIFICATION_REFERENCE,
-  //                 parentId: 'emp_data' },
                { id: 'proj',
                  label: 'Project',
                  position: 20,
@@ -38,14 +34,20 @@ annotate entity zsvg_c_emp with
   @UI.lineItem: [ { label: 'Id', position: 10 },
                   { type: #FOR_ACTION, label: 'Copy instance', dataAction: 'copy_instance' },
                   { type: #FOR_ACTION, label: 'New instance', dataAction: 'new_instance' } ]
+  @UI.selectionField: [ { position: 10 } ]
   Id;
 
   @EndUserText.label: 'First name'
+  @Search.defaultSearchElement: true
+  @Search.fuzzinessThreshold: 0.8
   @UI.fieldGroup: [ { qualifier: 'personal_data', position: 20 } ]
   @UI.lineItem: [ { label: 'Fname', position: 20 } ]
+  @UI.selectionField: [ { position: 20 } ]
   Fname;
 
   @EndUserText.label: 'Last name'
+  @Search.defaultSearchElement: true
+  @Search.fuzzinessThreshold: 0.8
   @UI.fieldGroup: [ { qualifier: 'personal_data', position: 30 } ]
   @UI.lineItem: [ { label: 'Lname', position: 30 } ]
   Lname;

@@ -1,5 +1,7 @@
 @Metadata.layer: #CORE
 
+@Search.searchable: true
+
 @UI.headerInfo: { typeName: 'Project',
                   typeNamePlural: 'Projects',
                   title: { label: 'Project', type: #STANDARD, value: 'Name' } }
@@ -7,11 +9,8 @@
 annotate entity zsvg_c_proj with
 
 {
-  @UI.facet: [ { label: 'Project data',
-                 type: #COLLECTION,
-                 id : 'proj_data',
-                 position: 10
-                  },
+  @EndUserText.label: 'Id'
+  @UI.facet: [ { label: 'Project data', type: #COLLECTION, id: 'proj_data', position: 10 },
                { label: 'Project info',
                  purpose: #STANDARD,
                  type: #FIELDGROUP_REFERENCE,
@@ -23,10 +22,7 @@ annotate entity zsvg_c_proj with
                  type: #FIELDGROUP_REFERENCE,
                  position: 20,
                  parentId: 'proj_data',
-                 targetQualifier: 'admindata' }
-  ]
-
-  @EndUserText.label: 'Id'
+                 targetQualifier: 'admindata' } ]
   @UI.fieldGroup: [ { qualifier: 'proj_info', position: 10 } ]
   @UI.lineItem: [ { label: 'Id', position: 10 } ]
   Id;
@@ -37,15 +33,18 @@ annotate entity zsvg_c_proj with
   EmpId;
 
   @EndUserText.label: 'Project name'
+  @Search.defaultSearchElement: true
+  @Search.fuzzinessThreshold: 0.8
   @UI.fieldGroup: [ { qualifier: 'proj_info', position: 30 } ]
   @UI.lineItem: [ { label: 'Name', position: 30 } ]
+  @UI.selectionField: [ { position: 30 } ]
   Name;
 
+  @Consumption.valueHelpDefinition: [ { entity: { name: 'zsvg_i_loc', element: 'value_low' },
+                                        additionalBinding: [ { element: 'location_text', localElement: 'Location_text' } ] } ]
   @EndUserText.label: 'Location'
   @UI.fieldGroup: [ { qualifier: 'proj_info', position: 40 } ]
   @UI.lineItem: [ { label: 'Loc', position: 40 } ]
-  @Consumption.valueHelpDefinition: [{ entity:{ name: 'zsvg_i_loc', element: 'value_low' },
-  additionalBinding: [{ element: 'location_text', localElement: 'Location_text' }] }]
   Loc;
 
   @EndUserText.label: 'Alloc'
